@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Vasúti fogalmak – szókirakó</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-synthesis:none;color:#243747;background:#f4f7fa;--blue:#236caa;--line:#dce5ed}
+*{box-sizing:border-box}body{margin:0}h1,h2,p{margin:0;font-weight:400}button{font:inherit;font-weight:400;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default;opacity:.5}button:focus-visible{outline:3px solid #79baf0;outline-offset:3px}[hidden]{display:none!important}
+.shell{width:min(100%,780px);margin:auto;padding:22px 16px max(30px,env(safe-area-inset-bottom))}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.brand{font-size:17px}.small{font-size:14px;line-height:1.6;color:#637588}.quiet{background:transparent;border:0;color:var(--blue);min-height:44px;padding:10px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:22px;margin:18px 0}h1{font-size:clamp(25px,6vw,32px);line-height:1.35;overflow-wrap:anywhere}h2{font-size:19px;line-height:1.5}.intro{font-size:17px;line-height:1.75;color:#637588;margin:16px 0 24px}.btn{padding:13px 16px;min-height:48px;border:1px solid var(--line);border-radius:12px;background:white;color:#243747}.primary{background:var(--blue);color:white;border-color:var(--blue)}.wide{width:100%}.row{display:flex;gap:8px;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:8px}.note{padding:14px 16px;background:#fff6df;border-radius:12px;color:#675322;font-size:14px;line-height:1.6;margin:16px 0}.footer{font-size:12px;line-height:1.7;color:#77899a;margin-top:26px}
+.answer-card{padding:18px 14px;scroll-margin-top:16px}.sentence{font-size:18px;line-height:2.7;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:12px}.piece{display:inline}.slot{display:inline-block;vertical-align:baseline;min-width:46px;min-height:44px;margin:3px 1px;padding:5px 9px;background:#edf5fc;border:1px solid #d5e6f5;border-radius:9px;color:#243747;font-size:17px;line-height:1.65;max-width:100%;overflow-wrap:anywhere;user-select:none;-webkit-user-select:none}.slot.empty{width:46px;padding:5px 0;background:#f6f9fb;border-style:dashed;color:#90a0ae;font-size:11px}.slot.wrong{background:#fff1ed;border-color:#bc6549}.slot.correct{background:#edf7f1;border-color:#8dbda2}.slot:disabled{opacity:1}.punct{color:#42586b;user-select:none;-webkit-user-select:none}.bank{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin-top:14px}.word{padding:9px 12px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:#f7f9fb;color:#243747;font-size:17px;max-width:100%;overflow-wrap:anywhere;user-select:none;-webkit-user-select:none}.word.used{visibility:hidden;pointer-events:none}.bank-card{scroll-margin-top:16px}.feedback{font-size:16px;line-height:1.6;margin-bottom:12px}.feedback.good{color:#287456}.feedback.bad{color:#a24930}.rating{flex:1;min-width:90px}.rating.selected{background:#edf5fc;border:2px solid var(--blue);color:#185784}.rating-label{margin-bottom:10px;font-size:16px}.definition{font-size:17px;line-height:1.85;white-space:pre-wrap;margin-top:12px}.actions{position:sticky;bottom:0;background:#f4f7faf5;padding:10px 0 max(10px,env(safe-area-inset-bottom));border-top:1px solid var(--line);margin-top:16px;z-index:2;backdrop-filter:blur(8px)}.jump-row{display:flex;justify-content:space-between;margin-bottom:6px}.action-row{display:flex;gap:10px}.action-row .btn{flex:1}.count{font-size:13px;color:#637588}.success-card{scroll-margin-top:18px}
+@media(max-width:380px){.shell{padding-left:12px;padding-right:12px}.card{padding:17px 12px}.word{padding:8px 10px;font-size:16px}.slot{font-size:16px}.rating{padding:12px 8px;font-size:14px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div class="brand">Vasúti fogalmak · szókirakó</div><button id="home" class="quiet" hidden>Kezdőlap</button></header>
+<div id="storage-note" class="note" role="status" hidden>A böngésző most nem tudja elmenteni az értékeléseket. Ebben a megnyitásban továbbra is működik a nehézség szerinti ismétlés.</div>
+<main id="app"></main>
+<footer class="footer"><span id="concept-count"></span> fogalom · Internet nélkül használható<br>Forrás: a feltöltött fogalomanyag.</footer>
+</div>
+<script id="concept-data" type="application/json">[
+  {
+    "id": "alakjelzo",
+    "name": "Alakjelző",
+    "definition": "Olyan helyhez kötött jelző, amely jelzéseit a fényvisszaverő kialakítású jelzést adó szerkezet (kar, tábla vagy tárcsa) helyzetével fejezi ki."
+  },
+  {
+    "id": "tetel-02",
+    "name": "Fényjelző",
+    "definition": "Olyan helyhez kötött jelző, amely a jelzéseket jelzőfénnyel vagy jelzőfényekkel adja."
+  },
+  {
+    "id": "tetel-03",
+    "name": "Jelzőhíd",
+    "definition": "A vasúti pálya fölött létesített olyan tartószerkezet, amelyen a jelzőket elhelyezik."
+  },
+  {
+    "id": "tetel-04",
+    "name": "Bejárati jelző",
+    "definition": "A közlekedő vonatoknak a bejárati jelzővel fedezett szolgálati helyre történő behaladását engedélyező vagy megtiltó főjelző."
+  },
+  {
+    "id": "tetel-05",
+    "name": "Kijárati jelző",
+    "definition": "Olyan főjelző, amely a vonatoknak a biztosított állomásról, vonatindításra kijelölt sajátcélú vasúti pályahálózatról történő kihaladását vagy az állomás területén lévő következő főjelzőig (további kijárati jelző, állomásközt fedező jelző) történő továbbhaladását engedélyezi vagy megtiltja."
+  },
+  {
+    "id": "tetel-06",
+    "name": "Fedezendő pont",
+    "definition": "A vonatkozó jogszabály által felsorolt helyek. (Váltó vagy közúti átkelőhely)"
+  },
+  {
+    "id": "tetel-07",
+    "name": "Fedezőjelző",
+    "definition": "A fedezendő pont előtt felállított főjelző."
+  },
+  {
+    "id": "tetel-08",
+    "name": "Biztosított főjelző (bejárati, kijárati, fedező- és térközjelző)",
+    "definition": "Olyan főjelző, amely a biztosítóberendezés hatáskörzetében működik. A biztosított főjelző továbbhaladást engedélyező jelzése csak akkor jelenhet meg, ha a biztosítóberendezési feltételek, függőségek teljesülnek."
+  },
+  {
+    "id": "tetel-09",
+    "name": "Tolatásjelző",
+    "definition": "A tolatási mozgások szabályozására alkalmazott jelző."
+  },
+  {
+    "id": "tetel-10",
+    "name": "Biztosított tolatásjelző",
+    "definition": "A biztosított tolatásjelző olyan fényjelző, amely lezárt vágányúton történő tolatást tesz lehetővé"
+  },
+  {
+    "id": "tetel-11",
+    "name": "Gurításjelző",
+    "definition": "Olyan nem biztosított, a gurítódomb vágánya mellett vagy a magasfogadó vágányok között elhelyezett fényjelző, amely a gurítási mozgásokat szabályozza."
+  },
+  {
+    "id": "tetel-12",
+    "name": "Ellenőrző jelző",
+    "definition": "Az egyéb jelzők csoportjába tartozó olyan előjelző nélküli fényjelző, amely a jelző mögötti vasúti pálya egyes szerkezeti elemeinek állapotáról ad tájékoztatást. Az ellenőrző jelző lehet: — Fénysorompót ellenőrző útátjáró jelző, — Mellékvonali ellenőrző jelző."
+  },
+  {
+    "id": "tetel-13",
+    "name": "Jelzés (Szóról szóra!)",
+    "definition": "A vasútüzemben alkalmazott, meghatározott információ tartalmú közlési mód. A jelzés utasítja a jelzés megfigyelésére kötelezett dolgozókat valamely szolgálati ténykedés vagy biztonsági intézkedés végrehajtására, vagy valamely forgalombiztonság szempontjából fontos körülményre figyelmeztet."
+  },
+  {
+    "id": "tetel-14",
+    "name": "Figyelmeztető jel",
+    "definition": "Tájékoztató szerepet tölt be, vagy valamely szolgálati ténykedésnek később történő végrehajtására hívja fel a megfigyelésére kötelezett dolgozók figyelmét."
+  },
+  {
+    "id": "tetel-15",
+    "name": "Hallható jelzés",
+    "definition": "Hangjelzéssel adott utasítás vagy figyelmeztetés."
+  },
+  {
+    "id": "tetel-16",
+    "name": "Kézijelzés",
+    "definition": "Olyan jelzés, amelyet a napszaknak megfelelő kézi jelzőeszközzel, az Utasításban meghatározott esetekben karral vagy valamilyen tárggyal adnak (1.3.2.)."
+  },
+  {
+    "id": "tetel-17",
+    "name": "Jelzőeszköz",
+    "definition": "Vasúti jelzések adására alkalmas, előírt helyen elhelyezhető jelző (pl. Megállj jelző, Megállj-jelző előjelzője, zárjelző) vagy kézi eszköz (pl. jelzőtárcsa, jelzőzászló, vonatindító jelzőeszköz, kézi jelzőlámpa, jelzősíp)."
+  },
+  {
+    "id": "tetel-18",
+    "name": "Fényvisszaverő kialakítású jelző, figyelmeztető jel",
+    "definition": "Olyan jelző, figyelmeztető jel, amelynek jelzést adó részét, árbócát fényvisszaverő anyaggal látják el. Az új építésű, valamint átalakított pályákon, továbbá jelzők, figyelmeztető jelek cseréje, pótlása esetén csak fényvisszaverő kialakítású jelzőket szabad alkalmazni."
+  },
+  {
+    "id": "tetel-19",
+    "name": "Szolgálati felsőbbség",
+    "definition": "Alkalmazását — a helyi viszonyok figyelembevételével — a pályahálózat működtető területi forgalmi szolgálati felsőbbsége rendeli el."
+  },
+  {
+    "id": "tetel-20",
+    "name": "Szelvényezés",
+    "definition": "Általában a vasútvonal kezdőpontjától a végpontja felé haladva a vasúti pálya 100 méteres szakaszokra osztása folyamatos számozással"
+  },
+  {
+    "id": "tetel-21",
+    "name": "Vágány",
+    "definition": "Általában ágyazatba fektetett, vasúti járművek részére kialakított pálya, amely sínekből, aljakból és kapcsolószerekből áll."
+  },
+  {
+    "id": "tetel-22",
+    "name": "Csonkavágány",
+    "definition": "Olyan vágány, amely a többi vágánnyal csak egyik végén van összekötve, a másik végén vágányzáró szerkezet vagy földkúp található. De lehet még vágányzáró sorompó és kisiklasztó saru is abban az esetben ha nem saját vágányon folytatódik a vonal."
+  },
+  {
+    "id": "tetel-23",
+    "name": "Ütközőbak, földkúp",
+    "definition": "A vágány végét lezáró szerkezet (ütközőbak) vagy építmény (földkúp)."
+  },
+  {
+    "id": "tetel-24",
+    "name": "Vasúti járműmérleg",
+    "definition": "A vasúti vágányba épített, a vasúti járművek mérlegelésére alkalmas szerkezet."
+  },
+  {
+    "id": "tetel-25",
+    "name": "Teljes sorompó",
+    "definition": "Vasúti útátjárót biztosító olyan sorompó-berendezés, amely zárt helyzetében a vasutat keresztező utat teljes szélességben sorompórúddal zárja el."
+  },
+  {
+    "id": "tetel-26",
+    "name": "Fénysorompó, félsorompóval kiegészített fénysorompó",
+    "definition": "(továbbiakban: fénysorompó) A fénysorompó a vasúti átjárót biztosító jelzőberendezés, amely a vasúti jármű közeledésekor és áthaladása alatt két egymás mellett lévő, felváltva villogó piros fénnyel tiltja közúti járművek és/vagy gyalogosok áthaladását. A félsorompóval kiegészített fénysorompó esetén a jelzőberendezés piros-fehér színű sorompórúddal (sorompórudakkal) kiegészítve tiltja a közúton közlekedők áthaladását. A berendezés villogó fehér fénye engedélyezi a közúti járművek és/vagy gyalogosok áthaladását."
+  },
+  {
+    "id": "tetel-27",
+    "name": "Vonat eleje",
+    "definition": "A haladási irányt tekintve a vonat első járművének első homlokfala."
+  },
+  {
+    "id": "tetel-28",
+    "name": "Vonat vége",
+    "definition": "A haladási irányt tekintve a vonat utolsó járművének hátsó homlokfala."
+  },
+  {
+    "id": "tetel-29",
+    "name": "Távolbalátás korlátozottsága",
+    "definition": "A távolbalátás akkor korlátozott, ha a napszaknak megfelelő jelzéseket időjárási ok (köd, sűrű havazás, hófúvás, porfelhő stb.) miatt nem lehet legalább 200 m-ről biztosan látni."
+  },
+  {
+    "id": "tetel-30",
+    "name": "Szabadlátás korlátozottsága",
+    "definition": "A szabadlátás akkor korlátozott, ha a napszaknak megfelelő jelzéseket terepviszonyok, építmények (épület, tárgy, növényzet stb.) miatt nem lehet: - vonatról a rálátási távolságból, - tolatásnál a mozgás szabályozásához szükséges távolságból folyamatosan látni."
+  },
+  {
+    "id": "tetel-31",
+    "name": "Kisiklasztó saru",
+    "definition": "A vágány egyik sínszálára helyezhető olyan védelmi berendezés, amely a vasúti sínszálra fordítva a ráhaladó vasúti járművet kisiklasztva, annak továbbhaladását megakadályozza."
+  },
+  {
+    "id": "tetel-32",
+    "name": "Vágányzáró sorompó",
+    "definition": "Olyan védelmi berendezés, amely egy vágányszakasz elzárására szolgál."
+  },
+  {
+    "id": "tetel-33",
+    "name": "Kézi állító készülék",
+    "definition": "Olyan szerkezet, amely a helyszíni és előírt esetekben a központi állítású vagy rugós váltók kézi állítására szolgál."
+  },
+  {
+    "id": "tetel-34",
+    "name": "Központi állítás",
+    "definition": "A váltók, jelzők és egyéb szerkezeti elemek a szolgálati hely központi állítókészülékéről történő állítása."
+  },
+  {
+    "id": "tetel-35",
+    "name": "A vonatnál alkalmazható legnagyobb sebesség",
+    "definition": "A Szolgálati menetrendben előírt, vagy bármely ok miatt ennél kisebb sebesség."
+  },
+  {
+    "id": "tetel-36",
+    "name": "Szabványos állás (alapállás)",
+    "definition": "Az állomási és nyíltvonali berendezések, valamint a hozzájuk tartozó jelzők, váltók és egyéb szerkezeti elemek vonatközlekedés- és tolatásmentes időszakokra meghatározott helyzete."
+  },
+  {
+    "id": "tetel-37",
+    "name": "Fordítókorong",
+    "definition": "Függőleges tengely körül elfordítható hídszerkezet, amely lehetővé teszi a ráállított vasúti jármű egyik vágányról a másikra történő átállítását vagy megfordítását."
+  },
+  {
+    "id": "tetel-38",
+    "name": "Tolópad",
+    "definition": "A vágánytengellyel merőleges irányban eltolható szerkezet, amely alkalmas a ráállított vasúti jármű másik párhuzamos vágányra történő átállítására."
+  },
+  {
+    "id": "tetel-39",
+    "name": "Jelzést, továbbá figyelmeztetést adó eszközök és berendezések",
+    "definition": "A jelzések és figyelmeztetések adhatók: - helyhez kötött és hordozható jelzőkkel, figyelmeztető jelekkel, - a járműveken alkalmazott berendezésekkel, - hordozható jelzőeszközökkel, -karral vagy valamilyen tárggyal."
+  },
+  {
+    "id": "tetel-40",
+    "name": "A hallható és a látható jelzések alkalmazása",
+    "definition": "A jelzéseket nappal és sötétben azonos módon kell adni, ha azokat: - fény- vagy alakjelzőkkel vagy - hallható jelzésekkel adják. A kézijelzések közül a nappal alkalmazandókat általában virradattól alkonyatig, a sötétben alkalmazandókat pedig alkonyattól virradatig kell adni. Nappal is a sötétben alkalmazandó kézijelzéseket kell adni: - az alagutakban vagy - ha a távolbalátás korlátozott."
+  },
+  {
+    "id": "tetel-41",
+    "name": "A jelzésadás ideje, helye, módja",
+    "definition": "A jelzéseket: - a végrehajtásukhoz szükséges időben, - az Utasításban meghatározott helyen, módon és egyértelműen kell adni. Kézi jelzőeszközzel történő jelzést a test elejével és arccal a mozdonyvezető felé fordulva kell adni. Ettől eltérni csak: - tolatás közben, - mozgó járműveken történő jelzésadáskor, - vonatindító jelzőeszközzel történő felhatalmazáskor, - közút felé adott Megállj! jelzés esetén szabad az Utasításban és az F.2. sz. Forgalmi Utasításban foglaltak figyelembe vételével."
+  },
+  {
+    "id": "tetel-42",
+    "name": "Figyelési kötelezettség",
+    "definition": "A vonatközlekedés vagy tolatás közben adott jelzést folyamatosan figyelni kell, mert a jelzés időközben rendkívüli ok vagy veszélyelhárítás miatt megváltozhat. A részletes előírásokat az F.2. sz. Forgalmi Utasítás tartalmazza."
+  },
+  {
+    "id": "tetel-43",
+    "name": "Eljárás eltérő értelmű egyidőben adott jelzések, továbbá kétes értelmű jelzések esetén",
+    "definition": "Egyidőben adott, de eltérő értelmű jelzéseket aggályosnak kell minősíteni, és közülük a forgalom szempontjából a biztonságosabbat kell figyelembe venni. Ha az eltérő értelmű egyidőben adott jelzéseket utasítás szerint adják, a jelzéseket az Utasításban meghatározott értelemmel kell tudomásul venni. Ha valamely jelzés értelmezése során a legkisebb kétely merül fel: - kétes előjelzés esetén fel kell készülni a főjelzőnél történő megállásra, - más kétes jelzés esetén a vonatot és a tolatási mozgást a helyzet tisztázásáig meg kell állítani, álló helyzetből nem szabad elindulni."
+  },
+  {
+    "id": "tetel-44",
+    "name": "A jelzőeszközökkéznél tartása",
+    "definition": "A dolgozók a napszaknak megfelelő kézi jelzőeszközöket tolatás közben állandóan, vonatközlekedés közben szükség esetén kötelesek maguknál tartani. Közlekedési és tolatási szünetekben a napszaknak megfelelő kézi jelzőeszközöket könnyen hozzáférhető helyen kell tartani."
+  },
+  {
+    "id": "tetel-45",
+    "name": "A jelzők csoportosítása",
+    "definition": "A jelzők forgalmi, szerkezeti, biztosítottsági és működési szempontból csoportosíthatók."
+  },
+  {
+    "id": "tetel-46",
+    "name": "1.3.7.1.",
+    "definition": "A jelzők forgalmi szempontból lehetnek: - főjelzők, - előjelzők, - ismétlőjelzők, - tolatási mozgást szabályozó jelzők, - egyéb jelzők."
+  },
+  {
+    "id": "tetel-47",
+    "name": "1.3.7.2.",
+    "definition": "A jelzők jelzést adó szerkezetük szerint lehetnek: - fényjelzők, - alakjelzők."
+  },
+  {
+    "id": "tetel-48",
+    "name": "1.3.7.3.",
+    "definition": "A jelzők biztosítottságuk szerint lehetnek: - biztosított jelzők, - nem biztosított jelzők."
+  },
+  {
+    "id": "tetel-49",
+    "name": "1.3.7.4.",
+    "definition": "A jelzők működésük szerint lehetnek: - önműködő jelzők, - félig önműködő jelzők, - nem önműködő jelzők. Az önműködő jelzőkön a jelzések üzemszerűen, emberi beavatkozás nélkül, a közlekedő vonat hatására változnak meg. A félig önműködő jelzőket a jelzők kezelésével megbízott dolgozó állítja továbbhaladást engedélyező állásba, a Megállj! jelzés a közlekedő vonat hatására jelenik meg. A nem önműködő jelzőket a jelző kezelésével megbízott dolgozó állítja továbbhaladást engedélyező és továbbhaladást megtiltó állásba."
+  },
+  {
+    "id": "tetel-50",
+    "name": "Távolodj tőlem! – tolatási kézi- és hangjelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászló vagy az egyik kar függőleges irányban fel- és lefelé mozgatása a mozdonyvezető felé. Sötétben fehér fényű kézi jelzőlámpa függőleges irányban fel- és lefelé mozgatása a mozdonyvezető felé. A látható jelzést szükség esetén ki kell egészíteni a jelzősíppal adott egy hosszú hanggal (▬)."
+  },
+  {
+    "id": "tetel-51",
+    "name": "Közeledj felém! – tolatási kézi- és hangjelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászló vagy az egyik kar jobbra-balra mozgatása a test előtt vízszintes irányban a mozdonyvezető felé. Sötétben fehér fényű kézi jelzőlámpa jobbra-balra mozgatása a test előtt vízszintes irányban a mozdonyvezető felé. A látható jelzést szükség esetén ki kell egészíteni a jelzősíppal adott egy rövid és egy hosszú hanggal (● ▬)."
+  },
+  {
+    "id": "tetel-52",
+    "name": "Lassan! – tolatási kézi- és hangjelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászló vagy az egyik kar ferdén lefelé tartása a mozdonyvezető felé. Sötétben fehér fényű kézi jelzőlámpa ferdén lefelé tartása a mozdonyvezető felé. A látható jelzést szükség esetén ki kell egészíteni a jelzősíppal adott kettőnél több hosszú hanggal (▬ ▬ ▬ ▬……….)."
+  },
+  {
+    "id": "tetel-53",
+    "name": "Megállj! – tolatási kézi- és hangjelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászló vagy az egyik kar körbeforgatása a mozdonyvezető felé. Sötétben bármilyen fényű kézi jelzőlámpa körbeforgatása a mozdonyvezető felé. A látható jelzést szükség esetén ki kell egészíteni a jelzősíppal adott három rövid hanggal (●●●)."
+  },
+  {
+    "id": "tetel-54",
+    "name": "Gyorsíts! – tolatási kézijelzés",
+    "definition": "A szükséges Közeledj felém! vagy Távolodj tőlem! jelzés látható részének gyors ütemben történő adása a mozdonyvezető felé."
+  },
+  {
+    "id": "tetel-55",
+    "name": "Nyomás! – tolatási kézijelzés",
+    "definition": "A Közeledj felém! jelzés látható részének rövid mozdulatú adása a mozdonyvezető felé, a járművek szétkapcsolásának megkönnyítése érdekében. A jelzést a járműkapcsolás végrehajtása előtt a kapcsolandó járművek mellett állva kell adni."
+  },
+  {
+    "id": "tetel-56",
+    "name": "Határig! – tolatási kézijelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászlónak, sötétben fehér fényű kézi jelzőlámpának a föld közelében, vízszintes irányban, rövid mozdulatokkal jobbra-balra mozgatása, és ezután a szükséges Közeledj felém! vagy Távolodj tőlem! jelzés látható részének adása a mozdonyvezető felé."
+  },
+  {
+    "id": "tetel-57",
+    "name": "Rájár! – tolatási kézijelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászlónak, sötétben fehér fényű kézi jelzőlámpának lassú mozgatással félkör alakban a fej fölé vitele, és ott nyugodtan tartása, majd a szükséges Közeledj felém! vagy Távolodj tőlem! jelzés látható részének adása a mozdonyvezető felé."
+  },
+  {
+    "id": "tetel-58",
+    "name": "Szétkapcsolni! – tolatási kézijelzés",
+    "definition": "Nappal kibontott sárga színű jelzőzászlónak, sötétben a fehér fényű kézi jelzőlámpának mellmagasságban, kisívben, gyors mozdulattal a törzstől kifelé lendítése."
+  },
+  {
+    "id": "tetel-59",
+    "name": "A tolatási kézi- és hangjelzések alkalmazása",
+    "definition": "A tolatás közben alkalmazható kézijelzéseket mindig olyan helyen, űrszelvényen kívül (kivéve mozgó járműveken történő jelzésadáskor) állva vagy haladva kell adni, hogy azokat a mozdonyvezető vagy a mozdonyvezető mellett figyelőszolgálatot ellátó dolgozó kétséget kizáró módon láthassa. Ha a mozgó jármű mellett az űrszelvényen belül műtárgy vagy mobil berendezés van, a járműről kihajolni vagy kinyúlni még jelzésadás vagy jelzés megfigyelése céljából is tilos. Ha a mozdonyról, vezérlőkocsiról a tolatásvezető által adott kézijelzés nem látható, akkor azt a tolatószemélyzet jól látható helyről köteles a mozdonyvezető felé továbbítani. A mozdonyszemélyzettel a tolatás megkezdése előtt közölni kell, hogy a kézijelzéseket a pálya (vágány) melyik oldalán fogják adni. Veszély esetét kivéve a tolatásvezető és a mozdonyvezető között minden tolatás közben alkalmazható kézi- és hangjelzés mellőzhető, ha közöttük jól működő rádiókapcsolat van. A Megállj! jelzést mindenkor a tényleges megállásig kell adni. A Lassan! és a Gyorsíts! kézijelzéseket a kívánt sebesség eléréséig kell adni, majd folytatni kell az addig adott Távolodj tőlem! vagy Közeledj felém! jelzést, vagy Megállj! jelzést kell adni."
+  }
+]</script>
+<script>
+'use strict';
+const CONCEPTS=JSON.parse(document.getElementById('concept-data').textContent);
+const KEY='vasuti-szokirako:progress:v1';
+const app=document.getElementById('app');
+const homeButton=document.getElementById('home');
+let storageUnavailable=false;
+let progress=readProgress();
+let session=null;
+document.getElementById('concept-count').textContent=CONCEPTS.length;
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function warnStorage(){storageUnavailable=true;document.getElementById('storage-note').hidden=false;}
+function readProgress(){
+ const clean={version:1,concepts:{}};
+ try{
+  const raw=localStorage.getItem(KEY);if(!raw)return clean;
+  const saved=JSON.parse(raw);
+  if(saved?.version!==1||!saved.concepts||typeof saved.concepts!=='object'||Array.isArray(saved.concepts))throw Error('Invalid progress');
+  for(const c of CONCEPTS){const p=saved.concepts[c.id];if(!p)continue;
+   if(!['easy','medium','hard'].includes(p.difficulty)||!Number.isSafeInteger(p.completed)||p.completed<0)throw Error('Invalid record');
+   clean.concepts[c.id]={difficulty:p.difficulty,completed:p.completed};
+  }
+ }catch{warnStorage();}
+ return clean;
+}
+function saveProgress(){try{localStorage.setItem(KEY,JSON.stringify(progress));}catch{warnStorage();}}
+function record(id){return progress.concepts[id]||(progress.concepts[id]={difficulty:'medium',completed:0});}
+function tokenize(definition){
+ const words=[],pieces=[];let cursor=0;
+ for(const m of definition.matchAll(/[\p{L}\p{M}\p{N}]+/gu)){
+  if(m.index>cursor)pieces.push({text:definition.slice(cursor,m.index)});
+  pieces.push({slot:words.length});words.push({id:words.length,text:m[0]});cursor=m.index+m[0].length;
+ }
+ if(cursor<definition.length)pieces.push({text:definition.slice(cursor)});
+ return {words,pieces};
+}
+function shuffle(values){
+ const result=values.slice();for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;
+}
+function chooseNextConcept(currentId=null){
+ const weights=CONCEPTS.map(c=>({c,weight:({easy:1,medium:2,hard:4}[progress.concepts[c.id]?.difficulty||'medium'])*(c.id===currentId ? 0.35 : 1)}));
+ let pick=Math.random()*weights.reduce((sum,x)=>sum+x.weight,0);
+ for(const x of weights){pick-=x.weight;if(pick<0)return x.c;}return weights[weights.length-1].c;
+}
+function showHome(){
+ session=null;homeButton.hidden=true;
+ app.innerHTML='<h1>Rakd össze a fogalmat</h1><p class="intro">Koppints a szavakra a helyes sorrendben. A fenti szóra koppintva visszateheted a kupacba. Az írásjelek a helyükön maradnak.</p><div class="card"><p class="small">Minden szó felhasználása után ellenőrizhetsz. Helyes megoldással léphetsz tovább. A nehéznek értékelt fogalmak gyakrabban kerülnek elő.</p></div><button class="btn primary wide" id="start">Gyakorlás indítása</button>';
+ document.getElementById('start').onclick=()=>startConcept(chooseNextConcept());
+}
+function startConcept(concept){
+ const parsed=tokenize(concept.definition);
+ session={concept,...parsed,pool:shuffle(parsed.words.map(w=>w.id)),slots:Array(parsed.words.length).fill(null),errors:new Set(),hasChecked:false,solved:false};
+ homeButton.hidden=false;
+ app.innerHTML='<p class="small">'+CONCEPTS.length+' fogalom · véletlen sorrend</p><h1 id="term-title">'+escapeHTML(concept.name)+'</h1><p class="small" style="margin-top:10px">Alul válassz szót. Felül koppints a visszavételhez.</p><section class="card answer-card" id="answer-card" aria-labelledby="term-title"><div class="between"><h2>A meghatározás</h2><span class="count" id="placed-count"></span></div><div class="sentence" id="sentence" aria-label="A fogalom összeállítása"></div></section><section class="card bank-card" id="bank-card"><div class="between"><h2>Szavak</h2><span class="count" id="remaining-count"></span></div><div class="bank" id="bank"></div></section><section id="result" class="card success-card" hidden><p class="feedback" id="feedback" role="status" aria-live="polite" tabindex="-1"></p><p class="rating-label">Mennyire volt nehéz?</p><div class="row" id="ratings">'+['easy','medium','hard'].map((grade,i)=>'<button class="btn rating" data-grade="'+grade+'" aria-pressed="false">'+['Könnyű','Közepes','Nehéz'][i]+'</button>').join('')+'</div><p class="small" style="margin-top:10px">A nehéz fogalom négyszeres súllyal kerül a sorsolásba.</p><div id="full-definition" hidden><h2 style="margin-top:20px">A teljes fogalom</h2><p class="definition">'+escapeHTML(concept.definition)+'</p></div></section><div class="actions"><div class="jump-row"><button class="quiet" id="jump-answer">Szöveg ↑</button><button class="quiet" id="jump-bank">Szavak ↑</button></div><div class="action-row"><button class="btn primary" id="check" disabled>Ellenőrzés</button><button class="btn" id="next" disabled>Következő</button></div></div>';
+ document.getElementById('check').onclick=checkAnswer;
+ document.getElementById('next').onclick=()=>{if(session?.solved)startConcept(chooseNextConcept(session.concept.id));};
+ document.getElementById('jump-answer').onclick=()=>document.getElementById('answer-card').scrollIntoView({block:'start'});
+ document.getElementById('jump-bank').onclick=()=>document.getElementById('bank-card').scrollIntoView({block:'start'});
+ for(const b of document.getElementById('ratings').querySelectorAll('[data-grade]'))b.onclick=()=>gradeConcept(b.dataset.grade);
+ renderWords();renderRating();document.getElementById('term-title').scrollIntoView({block:'start'});
+}
+function renderWords(){
+ const used=new Set(session.slots.filter(id=>id!==null));
+ const sentence=document.getElementById('sentence');
+ sentence.innerHTML=session.pieces.map(piece=>{
+  if('text' in piece)return '<span class="punct">'+escapeHTML(piece.text)+'</span>';
+  const index=piece.slot,id=session.slots[index],word=id===null?'':(session.solved?session.words[index].text:session.words[id].text);
+  const label=id===null?'Üres szóhely '+(index+1):word+' – vissza a szavak közé';
+  return '<span class="piece"><button class="slot'+(id===null?' empty':'')+(session.errors.has(index)?' wrong':'')+(session.solved?' correct':'')+'" data-slot="'+index+'" aria-label="'+escapeHTML(label)+'" '+(id===null||session.solved?'disabled':'')+'>'+(id===null?(index+1):escapeHTML(word))+'</button></span>';
+ }).join('');
+ for(const b of sentence.querySelectorAll('[data-slot]'))b.onclick=()=>removeWord(Number(b.dataset.slot));
+ const bank=document.getElementById('bank');
+ bank.innerHTML=session.pool.map(id=>'<button class="word'+(used.has(id)?' used':'')+'" data-word="'+id+'" '+(used.has(id)||session.solved?'disabled':'')+' aria-label="'+escapeHTML(session.words[id].text+' – a következő üres helyre')+'">'+escapeHTML(session.words[id].text)+'</button>').join('');
+ for(const b of bank.querySelectorAll('[data-word]'))b.onclick=()=>addWord(Number(b.dataset.word));
+ const placed=used.size;
+ document.getElementById('placed-count').textContent=placed+' / '+session.words.length+' szó';
+ document.getElementById('remaining-count').textContent=(session.words.length-placed)+' maradt';
+ document.getElementById('check').disabled=placed!==session.words.length||session.solved;
+ document.getElementById('next').disabled=!session.solved;
+}
+function clearCheckFeedback(){session.errors.clear();if(session.hasChecked){document.getElementById('feedback').textContent='Javítás után ellenőrizz újra.';document.getElementById('feedback').className='feedback';}}
+function addWord(id){
+ if(!session||session.solved||!Number.isInteger(id)||id<0||id>=session.words.length||session.slots.includes(id))return;
+ const next=session.slots.indexOf(null);if(next<0)return;
+ session.slots[next]=id;clearCheckFeedback();renderWords();
+}
+function removeWord(index){
+ if(!session||session.solved||!Number.isInteger(index)||index<0||index>=session.slots.length||session.slots[index]===null)return;
+ session.slots[index]=null;clearCheckFeedback();renderWords();
+}
+function normalizeWord(word){return word.normalize('NFC').toLocaleLowerCase('hu');}
+function checkAnswer(){
+ if(!session||session.solved||session.slots.some(id=>id===null))return;
+ session.hasChecked=true;session.errors.clear();
+ session.slots.forEach((id,index)=>{if(normalizeWord(session.words[id].text)!==normalizeWord(session.words[index].text))session.errors.add(index);});
+ session.solved=session.errors.size===0;
+ if(session.solved){const p=record(session.concept.id);p.completed++;saveProgress();}
+ renderWords();renderRating();
+ const result=document.getElementById('result');result.hidden=false;
+ const feedback=document.getElementById('feedback');feedback.className='feedback '+(session.solved?'good':'bad');
+ feedback.textContent=session.solved?'Helyes! A fogalmat összeállítottad.':session.errors.size+' szó nincs a megfelelő helyen. A pirossal jelölt szavakat visszaveheted és javíthatod.';
+ document.getElementById('full-definition').hidden=!session.solved;
+ feedback.focus({preventScroll:true});
+ if(session.solved)result.scrollIntoView({block:'start'});else document.getElementById('answer-card').scrollIntoView({block:'start'});
+}
+function renderRating(){const grade=progress.concepts[session.concept.id]?.difficulty;for(const b of document.getElementById('ratings').querySelectorAll('[data-grade]')){const selected=b.dataset.grade===grade;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));}}
+function gradeConcept(grade){if(!session?.hasChecked||!['easy','medium','hard'].includes(grade))return;record(session.concept.id).difficulty=grade;saveProgress();renderRating();}
+homeButton.onclick=showHome;
+showHome();
+
+</script>
+</body>
+</html>
